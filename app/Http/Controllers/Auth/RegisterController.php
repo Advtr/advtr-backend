@@ -45,7 +45,7 @@ class RegisterController extends Controller
               $mail['Source'] = \Config::get('constants.email.FROM_ADDRESS');
               $mail['Destination']['ToAddresses'] = [$request->email];
               $mail['Message']['Subject']['Data'] = 'OTP verification for Advts';
-              $mail['Message']['Body']['Text']['Data'] = 'Your OTP for email verification is '. $randomNumber;
+              $mail['Message']['Body']['Text']['Data'] = 'Your OTP for email verification is ';
               
               try {
                    $result = $client->sendEmail($mail);
