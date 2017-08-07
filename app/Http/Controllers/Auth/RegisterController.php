@@ -100,11 +100,10 @@ class RegisterController extends Controller
               try {
                    $result = $client->sendEmail($mail);
               } catch (SesException $e) {
-                    print_r('SES email: ');
-                    print_r($e->getMessage());
+                    return response()->json(['error' => 'Email sending failed'], 500);
               }
 
-	      $token = JWTAuth::fromUser($user);
+	            $token = JWTAuth::fromUser($user);
               $data = ['token' => $token, 'message' => 'Registration successful! Please check your email for OTP.', 'otp' => $randomNumber];
 
               return response()->json(['data' => $data], 200);
@@ -114,7 +113,6 @@ class RegisterController extends Controller
           } catch (QueryException $e) {
             return response()->json(['error' => 'Error saving user'], 500);
           } catch (\Exception $e) {
-            echo $e->getMessage();
             return response()->json(['error' => 'Error saving user'], 500);
           }
         }
@@ -130,6 +128,24 @@ class RegisterController extends Controller
           $model = \App\User::findOrFail($userId);
 
           //@todo send email
+          $client = SesClient::factory(array(
+                "credentials" => ['key' => env('SES_KEY', ''), 'secret' => env('SES_SECRET', '')],
+                  'version'=> 'latest',
+                  'region' => env('SES_REGION', '')
+              ));
+
+              $mail = array();
+              $mail['Source'] = \Config::get('constants.email.FROM_ADDRESS');
+              $mail['Destination']['ToAddresses'] = [$model->email];
+              $mail['Message']['Subject']['Data'] = 'OTP verification for Advts';
+              $mail['Message']['Body']['Text']['Data'] = 'Your OTP for email verification is '.$model->otp;
+
+              try {
+                   $result = $client->sendEmail($mail);
+              } catch (SesException $e) {
+                    return response()->json(['error' => 'Email sending failed'], 500);
+              }
+
           $data = ['otp' => $model->otp, 'success' => 'OTP sent successfully'];  
           return response()->json(['data' => $data], 200); 
 
