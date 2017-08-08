@@ -20,3 +20,5 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::post('/resend-otp', 'Auth\RegisterController@resendOTP');
 
 Route::post('/verify-otp', 'Auth\RegisterController@verifyOTP');
+
+Route::post('/home', 'Home\HomeController@index');

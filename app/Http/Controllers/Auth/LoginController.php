@@ -73,7 +73,7 @@ class LoginController extends Controller
         if($result != false || $result != null) {
 
            $token = JWTAuth::fromUser($result);
-           $data = ['success' => 'Login successful', 'token' => $token];
+           $data = ['success' => 'Login successful', 'token' => $token, 'is_verified' => $result->is_verified];
            return response()->json(['data' => $data]);
 
         } else {

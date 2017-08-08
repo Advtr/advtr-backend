@@ -52,6 +52,7 @@ class RegisterController extends Controller
           try {
             $user = new \App\User();
             $user->email = $request->email;
+            $user->is_verified = 0;
             $digitsNeeded=4;
 
             $randomNumber=''; // set up a blank string
@@ -76,7 +77,10 @@ class RegisterController extends Controller
               
               $user->social_media_id = $request->social_media_id;
               $user->login_type = $request->login_type;
-
+              if($request->is_verified == 1) {
+                $user->is_verified = 1;  
+              }
+              
             } else {
               return response()->json(['error' => 'No valid login type found'], 500);
             }
@@ -84,24 +88,27 @@ class RegisterController extends Controller
 
             if ($user->save()) {
 
-              //Send email otp
-              $client = SesClient::factory(array(
+              //Send email otp only if user is registering with email or socail media with privacy settings on
+              if($user->is_verified == 0) {
+                $client = SesClient::factory(array(
                 "credentials" => ['key' => env('SES_KEY', ''), 'secret' => env('SES_SECRET', '')],
                   'version'=> 'latest',
                   'region' => env('SES_REGION', '')
-              ));
+                ));
 
-              $mail = array();
-              $mail['Source'] = \Config::get('constants.email.FROM_ADDRESS');
-              $mail['Destination']['ToAddresses'] = [$request->email];
-              $mail['Message']['Subject']['Data'] = 'OTP verification for Advts';
-              $mail['Message']['Body']['Text']['Data'] = 'Your OTP for email verification is '.$randomNumber;
+                $mail = array();
+                $mail['Source'] = \Config::get('constants.email.FROM_ADDRESS');
+                $mail['Destination']['ToAddresses'] = [$request->email];
+                $mail['Message']['Subject']['Data'] = 'OTP verification for Advts';
+                $mail['Message']['Body']['Text']['Data'] = 'Your OTP for email verification is '.$randomNumber;
 
-              try {
-                   $result = $client->sendEmail($mail);
-              } catch (SesException $e) {
-                    return response()->json(['error' => 'Email sending failed'], 500);
+                try {
+                     $result = $client->sendEmail($mail);
+                } catch (SesException $e) {
+                      return response()->json(['error' => 'Email sending failed'], 500);
+                }  
               }
+              
 
 	            $token = JWTAuth::fromUser($user);
               $data = ['token' => $token, 'message' => 'Registration successful! Please check your email for OTP.', 'otp' => $randomNumber];
