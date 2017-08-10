@@ -52,6 +52,7 @@ class ForgotPasswordController extends Controller
             $user = \App\User::where('email', $request->email)
                 ->where('login_type', \Config::get('constants.loginTypes.EMAIL'))
                 ->first();
+            if($user != null) {
             $password = str_random(8);    
             $user->password = password_hash($password, PASSWORD_BCRYPT);
             $user->save();    
@@ -73,7 +74,11 @@ class ForgotPasswordController extends Controller
                      return response()->json(['success' => 'Password sent successfully on your email'], 200);
                 } catch (SesException $e) {
                       return response()->json(['error' => 'Email sending failed'], 500);
-                }
+                }    
+            } else {
+                return response()->json(['error' => 'We are not able to find your email address'], 500);    
+            }    
+            
 
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'We are not able to find your email address'], 500);
