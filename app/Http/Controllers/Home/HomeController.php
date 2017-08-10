@@ -21,6 +21,65 @@ class HomeController extends Controller
     }
 
     public function index(Request $request) {
+
+
+
+        $data = array(array('category' => 'Handcrafted', 'items' => array(array(
+                    'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-1.jpg',
+                                                    'price' => '$1500',
+                                                    'name' => 'Positano'
+                    ),
+                array(                              'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-2.jpg',
+                                                    'price' => '$1500',
+                                                    'name' => 'Positano'
+                      ),
+                array(                             'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-3.jpg',
+                                                    'price' => '$1500',
+                                                    'name' => 'Positano'),
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-4.jpg',
+                                                    'price' => '$1500',
+                                                    'name' => 'Positano')
+                )
+            ),
+                        array('category' => 'Featured', 'items' => array(array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-1.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-2.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-3.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-4.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'))
+                        ),
+                        array('category' => 'Most Visited', 'items' => array(array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-1.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array( 'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-2.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-3.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-4.jpg',
+                                                                'price' => '$1500',
+                                                                'name' => 'Positano'))),
+                        array('category' => 'Recent', 'items' => array(array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-1.jpg',
+                                                            'price' => '$1500',
+                                                            'name' => 'Positano'), 
+                array( 'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-2.jpg',
+                                                            'price' => '$1500',
+                                                            'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-3.jpg',
+                                                            'price' => '$1500',
+                                                            'name' => 'Positano'), 
+                array('image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-4.jpg',
+                                                            'price' => '$1500',
+                                                            'name' => 'Positano'))));
+
+/*
         $data = array(
                 'data' => array('Handcrafted' => array(array(
                     'image' => 'https://s3-us-west-2.amazonaws.com/advtr/listing-images/image-1.jpg',
@@ -75,7 +134,7 @@ class HomeController extends Controller
                                                             'name' => 'Positano')) )
             );
         print_r($data);exit;
-        
-        return response()->json([$data], 200);    
+      */  
+        return response()->json(['data' => $data], 200);    
     }
 }
