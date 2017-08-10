@@ -71,7 +71,8 @@ class ForgotPasswordController extends Controller
 
                 try {
                      $result = $client->sendEmail($mail);
-                     return response()->json(['success' => 'Password sent successfully on your email'], 200);
+                     $data = ['success' => 'Password sent successfully on your email'];
+                     return response()->json(['data' => $data], 200);
                 } catch (SesException $e) {
                       return response()->json(['error' => 'Email sending failed'], 500);
                 }    
