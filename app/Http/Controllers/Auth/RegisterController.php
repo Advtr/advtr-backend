@@ -179,7 +179,8 @@ class RegisterController extends Controller
           
           $model = \App\User::findOrFail($userId);  
           if($model->otp == $request->otp) {
-
+            $model->is_verified = 1;
+            $model->save();
             $returnToken = JWTAuth::fromUser($model);
             $data = ['success' => 'OTP confirmed successfully.', 'token' => $returnToken];
             return response()->json(['data' => $data], 200); 
