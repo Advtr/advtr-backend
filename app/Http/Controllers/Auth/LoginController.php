@@ -42,8 +42,8 @@ class LoginController extends Controller
 
     public function login(Request $request) {
         /*$token = JWTAuth::parseToken()->getPayload();
-        print_r($token->get('sub'));exit;
-        $result = false;*/
+        print_r($token->get('sub'));exit;*/
+        $result = false;
         $credentials = '';
 
         //Check email and password if login type is email
