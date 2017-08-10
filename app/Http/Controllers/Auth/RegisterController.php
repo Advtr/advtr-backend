@@ -182,7 +182,7 @@ class RegisterController extends Controller
 
             $returnToken = JWTAuth::fromUser($model);
             $data = ['success' => 'OTP confirmed successfully.', 'token' => $returnToken];
-            return response()->json(['data' => $data], 500); 
+            return response()->json(['data' => $data], 200); 
           } else {
             return response()->json(['error' => 'Invalid OTP. Please try again'], 500); 
           }
