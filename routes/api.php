@@ -23,4 +23,6 @@ Route::post('/verify-otp', 'Auth\RegisterController@verifyOTP');
 
 Route::post('/home', 'Home\HomeController@index');
 
+Route::post('/detail', 'Home\HomeController@detail');
+
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@index');
