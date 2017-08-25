@@ -72,7 +72,7 @@ class ProfileController extends Controller
             $result = $s3->putObject([
             'Bucket' => 'advtr',
             'Key'    => 'profile/'.$imageFileName,
-            'contentType' => $_FILES['image']['type'],
+            'ContentType' => $_FILES['image']['type'],
             'SourceFile'   => $image,
             'ACL'    => 'public-read'
             ]);
