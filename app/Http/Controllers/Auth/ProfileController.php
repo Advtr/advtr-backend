@@ -57,7 +57,7 @@ class ProfileController extends Controller
           //If image is present upload to S3
           if($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageFileName = $userId . '.' . $image->getClientOriginalExtension();
+            $imageFileName = time().'_'.$userId . '.' . $image->getClientOriginalExtension();
            
             $s3 = new \Aws\S3\S3Client([
             'region'  => env('SES_REGION', ''),
@@ -72,6 +72,7 @@ class ProfileController extends Controller
             $result = $s3->putObject([
             'Bucket' => 'advtr',
             'Key'    => 'profile/'.$imageFileName,
+            'contentType' => $_FILES['image']['type'],
             'SourceFile'   => $image,
             'ACL'    => 'public-read'
             ]);
