@@ -30,3 +30,5 @@ Route::post('/forgot-password', 'Auth\ForgotPasswordController@index');
 Route::post('/get-profile', 'Auth\ProfileController@getProfile');
 
 Route::post('/update-profile', 'Auth\ProfileController@updateProfile');
+
+Route::post('/game-photos', 'Game\GameController@getPhotos');
